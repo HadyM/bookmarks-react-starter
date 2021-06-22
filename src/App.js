@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import axios from "axios";
+import { apiURL } from "./util/apiURL";
 
 // PAGES
 import Edit from "./Pages/Edit";
@@ -14,13 +16,36 @@ import Show from "./Pages/Show";
 // COMPONENTS
 import NavBar from "./Components/NavBar";
 
+// CONFIGURATION
+const API_BASE = apiURL();
+
 function App() {
   const [bookmarks, setBookmarks] = useState([]);
 
-  const addBookmark = (newBookmark) => {};
+  // Should make a post request to add bookmark to 'database'
+  // Should update App state with new bookmark
+  const addBookmark = (newBookmark) => {
+    axios
+      .post(`${API_BASE}/bookmarks`, newBookmark)
+      .then((response) => {
+        setBookmarks([...bookmarks, newBookmark]);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const deleteBookmark = (index) => {};
   const updateBookmark = (updatedBookmark, index) => {};
-  useEffect(() => {}, []);
+
+  // Get a list of bookmarks for our application
+  //  Kinda like componentDidMount
+  useEffect(() => {
+    axios.get(`${API_BASE}/bookmarks`).then((response) => {
+      const { data } = response;
+      setBookmarks(data);
+    });
+  }, []);
   return (
     <div className="App">
       <Router>
