@@ -35,8 +35,35 @@ function App() {
       });
   };
 
+  // const addBookmark = (newBookmark) => {
+  //   axios
+  //     .post(`${API_BASE}/bookmarks`, newBookmark)
+  //     .then((response) => {
+  //       return axios.get(`${API_BASE}/bookmarks`);
+  //     })
+  //     .then((response) => {
+  //       setBookmarks(response.data)
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
+  // This would be better in production level code
+  // It would allow the use of multiple users for example
+
   const deleteBookmark = (index) => {};
-  const updateBookmark = (updatedBookmark, index) => {};
+  const updateBookmark = (updatedBookmark, index) => {
+    axios.put(`${API_BASE}/bookmarks/${index}`, updatedBookmark).then(
+      (response) => {
+        const updateArray = [...bookmarks];
+        updateArray[index] = updatedBookmark;
+        setBookmarks(updateArray);
+      }, //success
+      (err) => {
+        console.log(err);
+      }, // error
+    );
+  };
 
   // Get a list of bookmarks for our application
   //  Kinda like componentDidMount
