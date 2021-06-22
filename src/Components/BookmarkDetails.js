@@ -24,7 +24,10 @@ function BookmarkDetails(props) {
       });
   }, [index, history]);
 
-  const handleDelete = () => {};
+  const handleDelete = () => {
+    deleteBookmark(index);
+    history.push("/bookmarks");
+  };
   return (
     <article>
       <h3>

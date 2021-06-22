@@ -51,7 +51,19 @@ function App() {
   // This would be better in production level code
   // It would allow the use of multiple users for example
 
-  const deleteBookmark = (index) => {};
+  const deleteBookmark = (index) => {
+    axios.delete(`${API_BASE}/bookmarks/${index}`).then(
+      (response) => {
+        const updateArray = [...bookmarks];
+        updateArray.splice(index, 1);
+        setBookmarks(updateArray);
+      }, // success
+      (error) => {
+        console.log(error);
+      }, // error
+    );
+  };
+
   const updateBookmark = (updatedBookmark, index) => {
     axios.put(`${API_BASE}/bookmarks/${index}`, updatedBookmark).then(
       (response) => {
